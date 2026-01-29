@@ -43,7 +43,7 @@ fun Card1(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
+           // .padding(horizontal = 16.dp)
     ) {
         Card(
             modifier = Modifier.fillMaxWidth(),
@@ -65,7 +65,7 @@ fun Card1(
                         shape = CircleShape
                     ) {
                         Text(
-                            text = "ENTRADAS VOLANDO",
+                            text = "Apuntate ya",
                             color = Color.White,
                             style = MaterialTheme.typography.labelSmall,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
@@ -84,7 +84,7 @@ fun Card1(
                 Column(modifier = Modifier.padding(20.dp)) {
                     Text(
                         text = title,
-                        style = MaterialTheme.typography.titleLarge,
+                        style = MaterialTheme.typography.titleMedium,
                         color = Color.White
                     )
 
@@ -113,7 +113,6 @@ fun Card1(
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    // Botón Registrarme (Ancho completo)
                     Button(
                         onClick = { /*onRegisterClick*/ },
                         modifier = Modifier
