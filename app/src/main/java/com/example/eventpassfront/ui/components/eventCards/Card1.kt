@@ -29,7 +29,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import com.example.eventpassfront.R
 import com.example.eventpassfront.ui.components.animation.LivePulseDot
 import com.example.eventpassfront.ui.theme.DeepOrange
 import com.example.eventpassfront.ui.theme.SurfaceDark
@@ -41,7 +40,8 @@ fun Card1(
     title: String,
     location: String,
     date: String,
-    imageRes: Int
+    imageRes: Int,
+    onRegisterClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -121,7 +121,7 @@ fun Card1(
                     Spacer(modifier = Modifier.height(20.dp))
 
                     Button(
-                        onClick = { /*onRegisterClick*/ },
+                        onClick = { onRegisterClick() },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(54.dp),
@@ -129,7 +129,7 @@ fun Card1(
                         shape = RoundedCornerShape(16.dp)
                     ) {
                         Text(
-                            text = "Registrarme",
+                            text = "Ver detalles",
                             style = MaterialTheme.typography.labelLarge,
                             color = Color.Black
                         )

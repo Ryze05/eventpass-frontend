@@ -8,8 +8,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -18,13 +22,18 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.eventpassfront.ui.navigation.Screen
 import com.example.eventpassfront.ui.screens.EventsListScreen
+import com.example.eventpassfront.ui.screens.RegisterScreen
 import com.example.eventpassfront.ui.screens.home.HomeScreen
 import com.example.eventpassfront.ui.theme.EventPassFrontTheme
 import kotlinx.coroutines.launch
@@ -41,21 +50,32 @@ class MainActivity : ComponentActivity() {
                 val pagerState = rememberPagerState(pageCount = { tabs.size })
                 val scope = rememberCoroutineScope()
 
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentRoute = navBackStackEntry?.destination?.route
+
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     containerColor = MaterialTheme.colorScheme.background,
                     topBar = {
                         TopAppBar(
                             title = {
-                                val currentTitle = when (pagerState.currentPage) {
-                                    0 -> "EventPass"
-                                    1 -> "Explorar Eventos"
-                                    else -> "Registro"
+                                val currentTitle = when {
+                                    currentRoute == "home" -> "EventPass"
+                                    currentRoute == "events_list" -> "Explorar"
+                                    currentRoute?.startsWith("register") == true -> "Registro"
+                                    else -> "EventPass"
                                 }
                                 Text(
                                     text = currentTitle,
                                     style = MaterialTheme.typography.titleLarge
                                 )
+                            },
+                            navigationIcon = {
+                                if (currentRoute?.startsWith("register") == true) {
+                                    IconButton(onClick = { navController.popBackStack() }) {
+                                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
+                                    }
+                                }
                             },
                             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                                 containerColor = MaterialTheme.colorScheme.background,
@@ -64,27 +84,29 @@ class MainActivity : ComponentActivity() {
                         )
                     },
                     bottomBar = {
-                        NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
-                            tabs.forEachIndexed { index, screen ->
-                                val isSelected = pagerState.currentPage == index
-                                NavigationBarItem(
-                                    selected = isSelected,
-                                    onClick = { scope.launch { pagerState.animateScrollToPage(index) } },
-                                    icon = {
-                                        Icon(
-                                            screen.icon,
-                                            contentDescription = screen.title,
-                                            tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                                        )
-                                    },
-                                    label = {
-                                        Text(
-                                            screen.title,
-                                            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                                        )
-                                    },
-                                    colors = NavigationBarItemDefaults.colors(indicatorColor = MaterialTheme.colorScheme.surface)
-                                )
+                        if (currentRoute == "main_pager") {
+                            NavigationBar(containerColor = MaterialTheme.colorScheme.surface) {
+                                tabs.forEachIndexed { index, screen ->
+                                    val isSelected = pagerState.currentPage == index
+                                    NavigationBarItem(
+                                        selected = isSelected,
+                                        onClick = { scope.launch { pagerState.animateScrollToPage(index) } },
+                                        icon = {
+                                            Icon(
+                                                screen.icon,
+                                                contentDescription = screen.title,
+                                                tint = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                                            )
+                                        },
+                                        label = {
+                                            Text(
+                                                screen.title,
+                                                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                                            )
+                                        },
+                                        colors = NavigationBarItemDefaults.colors(indicatorColor = MaterialTheme.colorScheme.surface)
+                                    )
+                                }
                             }
                         }
                     }
@@ -92,7 +114,7 @@ class MainActivity : ComponentActivity() {
                     NavHost(
                         navController = navController,
                         startDestination = "main_pager",
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.fillMaxSize().padding(innerPadding)
                     ) {
                         composable("main_pager") {
                             HorizontalPager(
@@ -100,13 +122,19 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.fillMaxSize()
                             ) { page ->
                                 when (page) {
-                                    0 -> HomeScreen(modifier = Modifier.padding(innerPadding))
-                                    1 -> EventsListScreen(modifier = Modifier.padding(innerPadding))
+                                    0 -> HomeScreen(modifier = Modifier.fillMaxSize(), navController = navController)
+                                    1 -> EventsListScreen(modifier = Modifier.fillMaxSize())
                                 }
                             }
                         }
 
-                        //TODO registro
+                        composable(
+                            route = Screen.Register.route,
+                            arguments = listOf(navArgument("eventId") { type = NavType.IntType })
+                        ) { backStackEntry ->
+                            val eventId = backStackEntry.arguments?.getInt("eventId") ?: 0
+                            RegisterScreen(modifier = Modifier.fillMaxSize(), eventId = eventId)
+                        }
                     }
                 }
             }

@@ -10,9 +10,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -20,28 +22,40 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.eventpassfront.ui.components.eventCards.Card1
 import com.example.eventpassfront.ui.components.eventCards.Card2
 import com.example.eventpassfront.ui.theme.DeepOrange
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier,
-    viewModel: HomeViewModel = HomeViewModel()
+    viewModel: HomeViewModel = viewModel(),
+    navController: NavController
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    if (state.isLoading) {
-        Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator(color = DeepOrange)
-        }
-    } else if (state.errorMessage != null) {
-        Box(modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text(text = state.errorMessage!!, color = Color.Red)
-        }
-    } else {
-        Box(modifier.fillMaxSize()) {
+    val isInitialLoading =
+        state.isLoading && state.nextEvent == null && state.popularEvents.isEmpty()
+
+    PullToRefreshBox(
+        isRefreshing = state.isLoading && !isInitialLoading,
+        onRefresh = { viewModel.fetchHomeData() },
+        modifier = modifier,
+        contentAlignment = Alignment.TopCenter
+    ) {
+        if (state.isLoading && state.popularEvents.isEmpty() && state.nextEvent == null) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator(color = DeepOrange)
+            }
+        } else if (state.errorMessage != null) {
+            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text(text = state.errorMessage!!, color = Color.Red)
+            }
+        } else {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -63,6 +77,9 @@ fun HomeScreen(
                             location = it.ubicacion,
                             date = it.fecha,
                             imageRes = getDrawableId(it.imagenRes),
+                            onRegisterClick = {
+                                navController.navigate("register/${it.id}")
+                            }
                         )
                     }
                 }
@@ -81,7 +98,7 @@ fun HomeScreen(
                         )
 
                         TextButton(
-                            onClick = {/**/}
+                            onClick = {/**/ }
                         ) {
                             Text(
                                 text = "Todos",
@@ -108,6 +125,7 @@ fun HomeScreen(
                     }
                 }
             }
+
         }
     }
 }
