@@ -60,8 +60,9 @@ class MainActivity : ComponentActivity() {
                         TopAppBar(
                             title = {
                                 val currentTitle = when {
-                                    currentRoute == "home" -> "EventPass"
-                                    currentRoute == "events_list" -> "Explorar"
+                                    currentRoute == "main_pager" -> {
+                                        if (pagerState.currentPage == 0) "EventPass" else "Explorar"
+                                    }
                                     currentRoute?.startsWith("register") == true -> "Registro"
                                     else -> "EventPass"
                                 }
@@ -73,7 +74,7 @@ class MainActivity : ComponentActivity() {
                             navigationIcon = {
                                 if (currentRoute?.startsWith("register") == true) {
                                     IconButton(onClick = { navController.popBackStack() }) {
-                                        Icon(Icons.Default.ArrowBack, contentDescription = "Volver")
+                                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
                                     }
                                 }
                             },

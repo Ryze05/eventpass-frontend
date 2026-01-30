@@ -12,9 +12,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxValue
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -72,13 +75,34 @@ fun HomeScreen(
                     }
 
                     item {
-                        Card1(
-                            title = it.titulo,
-                            location = it.ubicacion,
-                            date = it.fecha,
-                            imageRes = getDrawableId(it.imagenRes),
-                            onRegisterClick = {
-                                navController.navigate("register/${it.id}")
+
+                        val dismissState = rememberSwipeToDismissBoxState(
+                            confirmValueChange = { value ->
+                                if (value == SwipeToDismissBoxValue.StartToEnd ||
+                                    value == SwipeToDismissBoxValue.EndToStart) {
+                                    navController.navigate("register/${it.id}")
+                                    false
+                                } else {
+                                    false
+                                }
+                            }
+                        )
+
+                        SwipeToDismissBox(
+                            state = dismissState,
+                            backgroundContent = {
+                                //TODO PONER ICONO O ALGO
+                            },
+                            content = {
+                                Card1(
+                                    title = it.titulo,
+                                    location = it.ubicacion,
+                                    date = it.fecha,
+                                    imageRes = getDrawableId(it.imagenRes),
+                                    onRegisterClick = {
+                                        navController.navigate("register/${it.id}")
+                                    }
+                                )
                             }
                         )
                     }
