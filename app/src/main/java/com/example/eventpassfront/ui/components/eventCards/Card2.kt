@@ -29,7 +29,7 @@ import com.example.eventpassfront.ui.theme.DeepOrange
 fun Card2(
     category: String,
     title: String,
-    imageRes: String,
+    imageRes: Int,
 ) {
     Card(
         modifier = Modifier
@@ -42,7 +42,7 @@ fun Card2(
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             Image(
-                painter = painterResource(id = R.drawable.concierto),
+                painter = painterResource(imageRes),
                 contentDescription = "Imagen de $title",
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop

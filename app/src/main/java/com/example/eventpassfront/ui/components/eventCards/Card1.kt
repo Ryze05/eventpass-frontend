@@ -41,7 +41,7 @@ fun Card1(
     title: String,
     location: String,
     date: String,
-    imageUrl: String
+    imageRes: Int
 ) {
     Column(
         modifier = Modifier
@@ -60,7 +60,7 @@ fun Card1(
                         .height(200.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.concierto),
+                        painter = painterResource(imageRes),
                         contentDescription = null,
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop

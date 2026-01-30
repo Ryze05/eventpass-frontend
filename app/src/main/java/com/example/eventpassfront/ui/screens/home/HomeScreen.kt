@@ -62,7 +62,7 @@ fun HomeScreen(
                             title = it.titulo,
                             location = it.ubicacion,
                             date = it.fecha,
-                            imageUrl = it.imagenRes,
+                            imageRes = getDrawableId(it.imagenRes),
                         )
                     }
                 }
@@ -102,7 +102,7 @@ fun HomeScreen(
                             Card2(
                                 category = it.categoria,
                                 title = it.titulo,
-                                imageRes = it.imagenRes
+                                imageRes = getDrawableId(it.imagenRes)
                             )
                         }
                     }
@@ -110,4 +110,15 @@ fun HomeScreen(
             }
         }
     }
+}
+
+@Composable
+fun getDrawableId(imagenRes: String): Int {
+    val context = androidx.compose.ui.platform.LocalContext.current
+
+    val name = imagenRes.substringBefore(".")
+
+    val id = context.resources.getIdentifier(name, "drawable", context.packageName)
+
+    return if (id != 0) id else com.example.eventpassfront.R.drawable.concierto
 }
