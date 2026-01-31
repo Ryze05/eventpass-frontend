@@ -10,7 +10,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,7 +31,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.eventpassfront.ui.navigation.Screen
-import com.example.eventpassfront.ui.screens.EventsListScreen
+import com.example.eventpassfront.ui.screens.EventsList.EventsListScreen
 import com.example.eventpassfront.ui.screens.RegisterScreen
 import com.example.eventpassfront.ui.screens.home.HomeScreen
 import com.example.eventpassfront.ui.theme.EventPassFrontTheme
@@ -123,8 +122,8 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.fillMaxSize()
                             ) { page ->
                                 when (page) {
-                                    0 -> HomeScreen(modifier = Modifier.fillMaxSize(), navController = navController)
-                                    1 -> EventsListScreen(modifier = Modifier.fillMaxSize())
+                                    0 -> HomeScreen(modifier = Modifier.fillMaxSize(), pagerState = pagerState, scope = scope, navController = navController)
+                                    1 -> EventsListScreen(modifier = Modifier.fillMaxSize(), navController = navController)
                                 }
                             }
                         }

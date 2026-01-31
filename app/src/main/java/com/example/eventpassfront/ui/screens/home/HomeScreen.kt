@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -29,13 +30,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.eventpassfront.ui.components.eventCards.Card1
 import com.example.eventpassfront.ui.components.eventCards.Card2
+import com.example.eventpassfront.ui.navigation.Screen
 import com.example.eventpassfront.ui.theme.DeepOrange
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier,
     viewModel: HomeViewModel = viewModel(),
+    pagerState: PagerState,
+    scope: CoroutineScope,
     navController: NavController
 ) {
 
@@ -50,7 +56,7 @@ fun HomeScreen(
         modifier = modifier,
         contentAlignment = Alignment.TopCenter
     ) {
-        if (state.isLoading && state.popularEvents.isEmpty() && state.nextEvent == null) {
+        if (isInitialLoading) {
             Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 CircularProgressIndicator(color = DeepOrange)
             }
@@ -122,7 +128,11 @@ fun HomeScreen(
                         )
 
                         TextButton(
-                            onClick = {/**/ }
+                            onClick = {
+                                scope.launch {
+                                    pagerState.animateScrollToPage(1)
+                                }
+                            }
                         ) {
                             Text(
                                 text = "Todos",

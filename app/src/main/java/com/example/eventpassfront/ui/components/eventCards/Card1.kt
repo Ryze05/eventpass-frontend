@@ -121,7 +121,7 @@ fun Card1(
                     Spacer(modifier = Modifier.height(20.dp))
 
                     Button(
-                        onClick = { onRegisterClick() },
+                        onClick = { /*onRegisterClick()*/ },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(54.dp),
