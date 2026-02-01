@@ -16,4 +16,5 @@ sealed class Screen(val route: String) {
     }
 
     data object Register : Screen("register/{eventId}")
+    data object Details: Screen("detalle_evento/{eventId}")
 }

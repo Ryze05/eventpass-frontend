@@ -105,8 +105,8 @@ fun HomeScreen(
                                     location = it.ubicacion,
                                     date = it.fecha,
                                     imageRes = getDrawableId(it.imagenRes),
-                                    onRegisterClick = {
-                                        navController.navigate("register/${it.id}")
+                                    onDetailClick = {
+                                        navController.navigate("detalle_evento/${it.id}")
                                     }
                                 )
                             }
@@ -153,7 +153,10 @@ fun HomeScreen(
                             Card2(
                                 category = it.categoria,
                                 title = it.titulo,
-                                imageRes = getDrawableId(it.imagenRes)
+                                imageRes = getDrawableId(it.imagenRes),
+                                onDetailClick = {
+                                    navController.navigate("detalle_evento/${it.id}")
+                                }
                             )
                         }
                     }

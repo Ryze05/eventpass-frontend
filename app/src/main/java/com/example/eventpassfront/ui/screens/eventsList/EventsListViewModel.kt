@@ -1,4 +1,4 @@
-package com.example.eventpassfront.ui.screens.EventsList
+package com.example.eventpassfront.ui.screens.eventsList
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -33,6 +33,8 @@ class EventsListViewModel: ViewModel() {
                     _state.update { it.copy(categories = categorias) }
                 } else if (response.status == HttpStatusCode.NoContent) {
                     _state.update { it.copy(categories = emptyList()) }
+                } else {
+                    _state.update { it.copy(errorMessage = "Error del servidor: ${response.status}") }
                 }
 
             } catch (e: Exception) {

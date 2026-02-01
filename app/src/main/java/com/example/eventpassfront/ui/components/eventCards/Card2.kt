@@ -2,6 +2,7 @@ package com.example.eventpassfront.ui.components.eventCards
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,7 +23,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.eventpassfront.R
 import com.example.eventpassfront.ui.theme.DeepOrange
 
 @Composable
@@ -30,6 +30,7 @@ fun Card2(
     category: String,
     title: String,
     imageRes: Int,
+    onDetailClick: () -> Unit = {}
 ) {
     Card(
         modifier = Modifier
@@ -40,7 +41,13 @@ fun Card2(
         shape = RoundedCornerShape(24.dp),
         //onClick = onClick
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .clickable{
+                    onDetailClick()
+                }
+        ) {
             Image(
                 painter = painterResource(imageRes),
                 contentDescription = "Imagen de $title",

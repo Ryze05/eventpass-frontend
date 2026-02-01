@@ -31,8 +31,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.eventpassfront.ui.navigation.Screen
-import com.example.eventpassfront.ui.screens.EventsList.EventsListScreen
-import com.example.eventpassfront.ui.screens.RegisterScreen
+import com.example.eventpassfront.ui.screens.eventDetail.EventDetailScreen
+import com.example.eventpassfront.ui.screens.eventsList.EventsListScreen
+import com.example.eventpassfront.ui.screens.register.RegisterScreen
 import com.example.eventpassfront.ui.screens.home.HomeScreen
 import com.example.eventpassfront.ui.theme.EventPassFrontTheme
 import kotlinx.coroutines.launch
@@ -63,6 +64,7 @@ class MainActivity : ComponentActivity() {
                                         if (pagerState.currentPage == 0) "EventPass" else "Explorar"
                                     }
                                     currentRoute?.startsWith("register") == true -> "Registro"
+                                    currentRoute?.startsWith("detalle_evento") == true -> "Detalles"
                                     else -> "EventPass"
                                 }
                                 Text(
@@ -71,7 +73,7 @@ class MainActivity : ComponentActivity() {
                                 )
                             },
                             navigationIcon = {
-                                if (currentRoute?.startsWith("register") == true) {
+                                if (currentRoute?.startsWith("register") == true || currentRoute?.startsWith("detalle_evento") == true) {
                                     IconButton(onClick = { navController.popBackStack() }) {
                                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Volver")
                                     }
@@ -134,6 +136,14 @@ class MainActivity : ComponentActivity() {
                         ) { backStackEntry ->
                             val eventId = backStackEntry.arguments?.getInt("eventId") ?: 0
                             RegisterScreen(modifier = Modifier.fillMaxSize(), eventId = eventId)
+                        }
+
+                        composable(
+                            route = Screen.Details.route,
+                            arguments = listOf(navArgument("eventId") { type = NavType.IntType })
+                        ) { backStackEntry ->
+                            val eventId = backStackEntry.arguments?.getInt("eventId") ?: 0
+                            EventDetailScreen(modifier = Modifier.fillMaxSize(), eventId = eventId, navController = navController)
                         }
                     }
                 }

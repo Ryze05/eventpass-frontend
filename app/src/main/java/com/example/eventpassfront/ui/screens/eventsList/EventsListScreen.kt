@@ -1,4 +1,4 @@
-package com.example.eventpassfront.ui.screens.EventsList
+package com.example.eventpassfront.ui.screens.eventsList
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -67,11 +67,11 @@ fun EventsListScreen(
                         )
                     }
 
-                    items(state.categories) { categoria ->
+                    items(state.categories) {
                         CategoryChip(
-                            text = categoria.nombre,
-                            isSelected = state.selectedCategoryId == categoria.id,
-                            onSelected = { viewModel.fetchEventos(categoria.id) }
+                            text = it.nombre,
+                            isSelected = state.selectedCategoryId == it.id,
+                            onSelected = { viewModel.fetchEventos(it.id) }
                         )
                     }
                 }
@@ -93,11 +93,11 @@ fun EventsListScreen(
                         verticalArrangement = Arrangement.spacedBy(12.dp),
                         modifier = Modifier.fillMaxSize()
                     ) {
-                        items(state.events) { evento ->
+                        items(state.events) {
                             GridCard(
-                                evento = evento,
+                                evento = it,
                                 onEventClick = {
-                                    navController.navigate("register/${evento.id}")
+                                    navController.navigate("detalle_evento/${it.id}")
                                 }
                             )
                         }

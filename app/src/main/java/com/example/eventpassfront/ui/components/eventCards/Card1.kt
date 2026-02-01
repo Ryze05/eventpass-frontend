@@ -41,7 +41,7 @@ fun Card1(
     location: String,
     date: String,
     imageRes: Int,
-    onRegisterClick: () -> Unit = {}
+    onDetailClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -121,7 +121,7 @@ fun Card1(
                     Spacer(modifier = Modifier.height(20.dp))
 
                     Button(
-                        onClick = { /*onRegisterClick()*/ },
+                        onClick = { onDetailClick() },
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(54.dp),

@@ -1,4 +1,4 @@
-package com.example.eventpassfront.ui.screens.EventsList
+package com.example.eventpassfront.ui.screens.eventsList
 
 import com.example.eventpassfront.modelos.Categoria
 import com.example.eventpassfront.modelos.Evento
