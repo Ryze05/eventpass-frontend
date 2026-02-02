@@ -122,7 +122,7 @@ fun GridCard(
                     Text(
                         text = "Ver detalles",
                         style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
-                        color = Color.White
+                        //color = Color.White
                     )
                 }
             }

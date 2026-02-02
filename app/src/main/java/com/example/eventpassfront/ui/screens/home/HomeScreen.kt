@@ -30,7 +30,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.eventpassfront.ui.components.eventCards.Card1
 import com.example.eventpassfront.ui.components.eventCards.Card2
-import com.example.eventpassfront.ui.navigation.Screen
 import com.example.eventpassfront.ui.theme.DeepOrange
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch

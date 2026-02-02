@@ -32,8 +32,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.eventpassfront.ui.navigation.Screen
 import com.example.eventpassfront.ui.screens.eventDetail.EventDetailScreen
+import com.example.eventpassfront.ui.screens.eventRegister.RegisterScreen
 import com.example.eventpassfront.ui.screens.eventsList.EventsListScreen
-import com.example.eventpassfront.ui.screens.register.RegisterScreen
 import com.example.eventpassfront.ui.screens.home.HomeScreen
 import com.example.eventpassfront.ui.theme.EventPassFrontTheme
 import kotlinx.coroutines.launch
