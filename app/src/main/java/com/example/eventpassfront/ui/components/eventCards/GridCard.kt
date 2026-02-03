@@ -1,6 +1,7 @@
 package com.example.eventpassfront.ui.components.eventCards
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -78,7 +79,7 @@ fun GridCard(
                         shape = CircleShape
                     ) {
                         Text(
-                            text = "Apuntate ya",
+                            text = evento.categoria,
                             color = Color.White,
                             style = MaterialTheme.typography.labelSmall,
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
@@ -97,24 +98,37 @@ fun GridCard(
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
-                            imageVector = Icons.Default.Place,
+                            imageVector = Icons.Default.DateRange,
                             contentDescription = null,
-                            tint = DeepOrange,
-                            modifier = Modifier.size(16.dp)
+                            tint = Color.Gray,
+                            modifier = Modifier.size(14.dp)
                         )
+                        Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = evento.ubicacion,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = TextSecondary
+                            text = evento.fecha,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.Gray
                         )
                     }
 
-                    Text(
-                        text = evento.fecha,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = TextSecondary,
-                        modifier = Modifier.padding(top = 4.dp, start = 20.dp)
-                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = Icons.Default.LocationOn,
+                            contentDescription = null,
+                            tint = Color.Gray,
+                            modifier = Modifier.size(14.dp)
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = evento.ubicacion,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = Color.Gray,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(20.dp))
 

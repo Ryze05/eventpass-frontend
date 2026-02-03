@@ -89,7 +89,7 @@ fun EventsListScreen(
                     }
                 } else {
                     LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        verticalArrangement = Arrangement.spacedBy(30.dp),
                         modifier = Modifier.fillMaxSize()
                     ) {
                         items(state.events) {
