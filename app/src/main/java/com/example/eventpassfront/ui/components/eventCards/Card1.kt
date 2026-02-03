@@ -1,5 +1,7 @@
 package com.example.eventpassfront.ui.components.eventCards
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,9 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -33,8 +37,9 @@ import com.example.eventpassfront.ui.components.animation.LivePulseDot
 import com.example.eventpassfront.ui.theme.DeepOrange
 import com.example.eventpassfront.ui.theme.SurfaceDark
 import com.example.eventpassfront.ui.theme.TextSecondary
+import com.example.eventpassfront.ui.utils.formatEventDate
 
-//TODO onRegister
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Card1(
     title: String,
@@ -99,24 +104,33 @@ fun Card1(
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
+                            imageVector = Icons.Default.DateRange,
+                            contentDescription = null,
+                            tint = DeepOrange,
+                            modifier = Modifier.size(14.dp)
+                        )
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Text(
+                            text = formatEventDate(date),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = TextSecondary,
+                        )
+                    }
+
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
                             imageVector = Icons.Default.Place,
                             contentDescription = null,
                             tint = DeepOrange,
                             modifier = Modifier.size(16.dp)
                         )
+                        Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = " $location",
+                            text = location,
                             style = MaterialTheme.typography.bodyMedium,
                             color = TextSecondary
                         )
                     }
-
-                    Text(
-                        text = date,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = TextSecondary,
-                        modifier = Modifier.padding(top = 4.dp, start = 20.dp)
-                    )
 
                     Spacer(modifier = Modifier.height(20.dp))
 

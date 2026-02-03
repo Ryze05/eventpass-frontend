@@ -1,0 +1,20 @@
+package com.example.eventpassfront.ui.utils
+
+import android.os.Build
+import androidx.annotation.RequiresApi
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun formatEventDate(timestamp: String): String {
+    return try {
+        val dateTime = LocalDateTime.parse(timestamp)
+
+        val formatter = DateTimeFormatter.ofPattern("EEEE, MMM d, yyyy", Locale.getDefault())
+
+        dateTime.format(formatter).replaceFirstChar { it.uppercase() }
+    } catch (e: Exception) {
+        timestamp
+    }
+}

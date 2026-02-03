@@ -22,15 +22,27 @@ class EventRegisterViewModel: ViewModel() {
     val state = _state.asStateFlow()
 
     fun updateName(nuevoNombre: String) {
-        _state.update { it.copy(nombre = nuevoNombre) }
+        val error = if (nuevoNombre.isBlank()) "El nombre no puede estar vacío" else null
+        _state.update { it.copy(nombre = nuevoNombre, nombreError = error) }
     }
 
     fun updateEmail(nuevoEmail: String) {
-        _state.update { it.copy(email = nuevoEmail) }
+        val emailPattern = android.util.Patterns.EMAIL_ADDRESS
+        val error = when {
+            nuevoEmail.isBlank() -> "El correo es obligatorio"
+            !emailPattern.matcher(nuevoEmail).matches() -> "Formato de correo inválido"
+            else -> null
+        }
+        _state.update { it.copy(email = nuevoEmail, emailError = error) }
     }
 
     fun updateTelefono(nuevoTelefono: String) {
-        _state.update { it.copy(telefono = nuevoTelefono) }
+        val error = when {
+            nuevoTelefono.isBlank() -> "El teléfono es obligatorio"
+            nuevoTelefono.length < 9 -> "Debe tener al menos 9 dígitos"
+            else -> null
+        }
+        _state.update { it.copy(telefono = nuevoTelefono, telefonoError = error) }
     }
 
     fun registerAssistant(idEvento: Int) {
@@ -62,6 +74,12 @@ class EventRegisterViewModel: ViewModel() {
         }
     }
 
+    fun isFormValid(): Boolean {
+        val s = _state.value
+        return s.nombre.isNotBlank() && s.nombreError == null &&
+                s.email.isNotBlank() && s.emailError == null &&
+                s.telefono.isNotBlank() && s.telefonoError == null
+    }
     /*fun registerAssistant(idEvento: Int) {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, errorMessage = null) }

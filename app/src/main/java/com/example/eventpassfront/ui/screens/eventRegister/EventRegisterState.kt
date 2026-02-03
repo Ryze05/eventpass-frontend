@@ -11,4 +11,7 @@ data class EventRegisterState(
     val isLoading: Boolean = false,
     val isSuccess: Boolean = false,
     val errorMessage: String? = null,
+    val nombreError: String? = null,
+    val emailError: String? = null,
+    val telefonoError: String? = null
 )

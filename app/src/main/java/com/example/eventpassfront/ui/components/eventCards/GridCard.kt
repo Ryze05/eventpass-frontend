@@ -1,10 +1,10 @@
 package com.example.eventpassfront.ui.components.eventCards
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -30,21 +29,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.eventpassfront.modelos.Evento
-import com.example.eventpassfront.ui.components.animation.LivePulseDot
 import com.example.eventpassfront.ui.screens.home.getDrawableId
 import com.example.eventpassfront.ui.theme.DeepOrange
 import com.example.eventpassfront.ui.theme.SurfaceDark
-import com.example.eventpassfront.ui.theme.TextSecondary
+import com.example.eventpassfront.ui.utils.formatEventDate
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun GridCard(
     evento: Evento,
@@ -105,7 +101,7 @@ fun GridCard(
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = evento.fecha,
+                            text = formatEventDate(evento.fecha),
                             style = MaterialTheme.typography.bodySmall,
                             color = Color.Gray
                         )

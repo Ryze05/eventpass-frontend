@@ -38,7 +38,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -47,6 +46,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.eventpassfront.ui.components.errors.ErrorText
 import com.example.eventpassfront.ui.components.fields.CustomTextField
 import com.example.eventpassfront.ui.screens.home.getDrawableId
 import com.example.eventpassfront.ui.theme.DeepOrange
@@ -90,7 +90,7 @@ fun RegisterScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(180.dp)
-                        //.clip(RoundedCornerShape(24.dp))
+                    //.clip(RoundedCornerShape(24.dp))
                 ) {
                     Image(
                         painter = painterResource(id = getDrawableId(it.imagenRes)),
@@ -99,10 +99,16 @@ fun RegisterScreen(
                         contentScale = ContentScale.Crop
                     )
 
-                    Box(modifier = Modifier.fillMaxSize().background(Color.Black.copy(alpha = 0.4f)))
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Black.copy(alpha = 0.4f))
+                    )
 
                     Column(
-                        modifier = Modifier.align(Alignment.BottomStart).padding(16.dp)
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .padding(16.dp)
                     ) {
                         Surface(
                             color = DeepOrange,
@@ -135,38 +141,85 @@ fun RegisterScreen(
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                Text("Asegura tu lugar en el evento", style = MaterialTheme.typography.headlineSmall, color = Color.White, fontWeight = FontWeight.Bold)
-                Text("Completa el formulario a continuación para registrarte.", color = Color.Gray, style = MaterialTheme.typography.bodyMedium)
+                Text(
+                    "Asegura tu lugar en el evento",
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    "Completa el formulario a continuación para registrarte.",
+                    color = Color.Gray,
+                    style = MaterialTheme.typography.bodyMedium
+                )
 
                 Spacer(Modifier.height(28.dp))
 
-                CustomTextField(label = "Nombre Completo", placeHolder = "Introduce tu nombre completo" ,value = state.nombre, onValueChange = { viewModel.updateName(it) }, icon = Icons.Default.Person)
-                CustomTextField(label = "Correo Electrónico", placeHolder = "Introduce tu correo electrónico",value = state.email, onValueChange = { viewModel.updateEmail(it) }, icon = Icons.Default.Email)
-                CustomTextField(label = "Número de Teléfono", placeHolder = "Introduce tu número de teléfono",value = state.telefono, onValueChange = { viewModel.updateTelefono(it) }, icon = Icons.Default.Phone)
+                CustomTextField(
+                    label = "Nombre Completo",
+                    placeHolder = "Introduce tu nombre completo",
+                    value = state.nombre,
+                    onValueChange = { viewModel.updateName(it) },
+                    icon = Icons.Default.Person
+                )
+
+                state.nombreError?.let { ErrorText(it) }
+                Spacer(Modifier.height(16.dp))
+
+                CustomTextField(
+                    label = "Correo Electrónico",
+                    placeHolder = "Introduce tu correo electrónico",
+                    value = state.email,
+                    onValueChange = { viewModel.updateEmail(it) },
+                    icon = Icons.Default.Email
+                )
+
+                state.emailError?.let { ErrorText(it) }
+                Spacer(Modifier.height(16.dp))
+
+                CustomTextField(
+                    label = "Número de Teléfono",
+                    placeHolder = "Introduce tu número de teléfono",
+                    value = state.telefono,
+                    onValueChange = { viewModel.updateTelefono(it) },
+                    icon = Icons.Default.Phone
+                )
+
+                state.telefonoError?.let { ErrorText(it) }
 
                 Spacer(Modifier.height(32.dp))
+            }
+        }
 
-                Button(
-                    onClick = { viewModel.registerAssistant(eventId) },
-                    modifier = Modifier.fillMaxWidth().height(60.dp),
-                    enabled = !state.isLoading && !state.isSuccess,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = if (state.isSuccess) Color(0xFF4CAF50) else DeepOrange,
-                        disabledContainerColor = if (state.isSuccess) Color(0xFF4CAF50) else Color.DarkGray
-                    ),
-                    shape = RoundedCornerShape(30.dp)
-                ) {
-                    if (state.isLoading) {
-                        CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
-                    } else if (state.isSuccess) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(Icons.Default.CheckCircle, contentDescription = null, tint = Color.White)
-                            Spacer(Modifier.width(8.dp))
-                            Text("Registro exitoso", fontWeight = FontWeight.Bold, color = Color.White)
-                        }
-                    } else {
-                        Text("Registrarse", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color.White)
-                    }
+
+        Surface(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .fillMaxWidth(),
+            color = Color.Black.copy(alpha = 0.9f)
+        ) {
+            Button(
+                onClick = { viewModel.registerAssistant(eventId) },
+                enabled = !state.isLoading && !state.isSuccess && viewModel.isFormValid(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 20.dp)
+                    .height(54.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = DeepOrange,
+                    contentColor = Color.White,
+                    disabledContainerColor = Color.DarkGray,
+                    disabledContentColor = Color.Gray
+                ),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                if (state.isLoading) {
+                    CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
+                } else {
+                    Text(
+                        "Registrarse",
+                        style = MaterialTheme.typography.labelLarge
+                    )
                 }
             }
         }

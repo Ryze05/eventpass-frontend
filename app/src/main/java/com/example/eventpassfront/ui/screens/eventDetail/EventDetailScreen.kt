@@ -1,5 +1,7 @@
 package com.example.eventpassfront.ui.screens.eventDetail
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,7 +42,9 @@ import androidx.navigation.NavController
 import com.example.eventpassfront.ui.components.detailItems.DetailItem
 import com.example.eventpassfront.ui.screens.home.getDrawableId
 import com.example.eventpassfront.ui.theme.DeepOrange
+import com.example.eventpassfront.ui.utils.formatEventDate
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EventDetailScreen(
     modifier: Modifier,
@@ -109,7 +113,7 @@ fun EventDetailScreen(
                                 modifier = Modifier.fillMaxWidth()
                             ) {
                                 Column(modifier = Modifier.padding(16.dp)) {
-                                    DetailItem(Icons.Default.DateRange, it.fecha)
+                                    DetailItem(Icons.Default.DateRange, formatEventDate(it.fecha))
                                     HorizontalDivider(color = Color.DarkGray, modifier = Modifier.padding(vertical = 12.dp))
                                     DetailItem(Icons.Default.LocationOn, it.ubicacion)
                                 }
