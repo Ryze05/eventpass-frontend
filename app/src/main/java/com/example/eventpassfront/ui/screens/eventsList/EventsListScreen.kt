@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -87,7 +88,20 @@ fun EventsListScreen(
                         )
                     }
                 } else {
-                    LazyVerticalGrid(
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        items(state.events) {
+                            GridCard(
+                                evento = it,
+                                onEventClick = {
+                                    navController.navigate("detalle_evento/${it.id}")
+                                }
+                            )
+                        }
+                    }
+                    /*LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
                         horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalArrangement = Arrangement.spacedBy(12.dp),
@@ -101,7 +115,7 @@ fun EventsListScreen(
                                 }
                             )
                         }
-                    }
+                    }*/
                 }
             }
         }

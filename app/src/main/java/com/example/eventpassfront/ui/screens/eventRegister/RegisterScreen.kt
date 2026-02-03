@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -103,14 +104,20 @@ fun RegisterScreen(
                     Column(
                         modifier = Modifier.align(Alignment.BottomStart).padding(16.dp)
                     ) {
-                        Surface(color = DeepOrange, shape = RoundedCornerShape(4.dp)) {
+                        Surface(
+                            color = DeepOrange,
+                            shape = CircleShape
+                        ) {
                             Text(
                                 text = it.categoria,
-                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 4.dp),
                                 style = MaterialTheme.typography.labelSmall,
                                 color = Color.White
                             )
                         }
+
+                        Spacer(Modifier.height(10.dp))
+
                         Text(
                             text = it.titulo,
                             style = MaterialTheme.typography.titleLarge,
@@ -155,10 +162,10 @@ fun RegisterScreen(
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Default.CheckCircle, contentDescription = null, tint = Color.White)
                             Spacer(Modifier.width(8.dp))
-                            Text("Registro exitoso", fontWeight = FontWeight.Bold)
+                            Text("Registro exitoso", fontWeight = FontWeight.Bold, color = Color.White)
                         }
                     } else {
-                        Text("Registrarse", fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                        Text("Registrarse", fontWeight = FontWeight.Bold, fontSize = 18.sp, color = Color.White)
                     }
                 }
             }

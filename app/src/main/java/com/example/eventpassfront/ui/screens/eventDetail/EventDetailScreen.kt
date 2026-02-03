@@ -157,7 +157,7 @@ fun EventDetailScreen(
                         Text(
                             text = "Registrarse",
                             style = MaterialTheme.typography.labelLarge,
-                            color = Color.Black
+                            color = Color.White
                         )
                     }
                 }

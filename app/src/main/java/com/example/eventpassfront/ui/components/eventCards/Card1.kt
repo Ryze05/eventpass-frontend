@@ -131,7 +131,7 @@ fun Card1(
                         Text(
                             text = "Ver detalles",
                             style = MaterialTheme.typography.labelLarge,
-                            color = Color.Black
+                            color = Color.White
                         )
                     }
                 }

@@ -83,12 +83,18 @@ fun HomeScreen(
 
                         val dismissState = rememberSwipeToDismissBoxState(
                             confirmValueChange = { value ->
-                                if (value == SwipeToDismissBoxValue.StartToEnd ||
-                                    value == SwipeToDismissBoxValue.EndToStart) {
-                                    navController.navigate("register/${it.id}")
-                                    false
-                                } else {
-                                    false
+                                when (value) {
+                                    SwipeToDismissBoxValue.StartToEnd -> {
+                                        navController.navigate("register/${it.id}")
+                                        false
+                                    }
+
+                                    SwipeToDismissBoxValue.EndToStart -> {
+                                        navController.navigate("detalle_evento/${it.id}")
+                                        false
+                                    }
+
+                                    else -> false
                                 }
                             }
                         )
