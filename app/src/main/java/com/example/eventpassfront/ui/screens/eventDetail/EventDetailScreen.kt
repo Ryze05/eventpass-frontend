@@ -111,7 +111,7 @@ fun EventDetailScreen(
                                 Column(modifier = Modifier.padding(16.dp)) {
                                     DetailItem(Icons.Default.DateRange, it.fecha)
                                     HorizontalDivider(color = Color.DarkGray, modifier = Modifier.padding(vertical = 12.dp))
-                                    DetailItem(Icons.Default.LocationOn, it.titulo)
+                                    DetailItem(Icons.Default.LocationOn, it.ubicacion)
                                 }
                             }
                         }
@@ -120,7 +120,7 @@ fun EventDetailScreen(
                     item {
                         Column(modifier = Modifier.padding(horizontal = 20.dp)) {
                             Text(
-                                text = "About the Event",
+                                text = "Sobre el evento",
                                 style = MaterialTheme.typography.titleLarge,
                                 color = Color.White,
                                 fontWeight = FontWeight.Bold
