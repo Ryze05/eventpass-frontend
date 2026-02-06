@@ -37,12 +37,14 @@ class EventRegisterViewModel: ViewModel() {
     }
 
     fun updateTelefono(nuevoTelefono: String) {
+        val soloNumeros = nuevoTelefono.filter { it.isDigit() }
+
         val error = when {
             nuevoTelefono.isBlank() -> "El teléfono es obligatorio"
             nuevoTelefono.length < 9 -> "Debe tener al menos 9 dígitos"
             else -> null
         }
-        _state.update { it.copy(telefono = nuevoTelefono, telefonoError = error) }
+        _state.update { it.copy(telefono = soloNumeros, telefonoError = error) }
     }
 
     fun registerAssistant(idEvento: Int) {
@@ -80,35 +82,6 @@ class EventRegisterViewModel: ViewModel() {
                 s.email.isNotBlank() && s.emailError == null &&
                 s.telefono.isNotBlank() && s.telefonoError == null
     }
-    /*fun registerAssistant(idEvento: Int) {
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true, errorMessage = null) }
-
-            try {
-                val payload = mapOf(
-                    "nombre" to _state.value.nombre,
-                    "email" to _state.value.email,
-                    "telefono" to _state.value.telefono,
-                    "eventoId" to idEvento
-                )
-
-                val response = KtorClient.httpClient.post("${KtorClient.BASE_URL}/asistentes") {
-                    contentType(ContentType.Application.Json)
-                    setBody(payload)
-                }
-
-                if (response.status == HttpStatusCode.Created || response.status == HttpStatusCode.OK) {
-                    _state.update { it.copy(isLoading = false, isSuccess = true) }
-                } else {
-                    _state.update { it.copy(isLoading = false, errorMessage = "Error: ${response.status}") }
-                }
-
-            } catch (e: Exception) {
-                _state.update { it.copy(isLoading = false, errorMessage = e.message) }
-            }
-        }
-    }*/
-
     fun loadEvent(id: Int) {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, errorMessage = null) }

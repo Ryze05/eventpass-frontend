@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,10 +16,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CustomTextField(label: String, placeHolder: String,value: String, onValueChange: (String) -> Unit, icon: ImageVector) {
+fun CustomTextField(label: String, placeHolder: String,value: String, onValueChange: (String) -> Unit, icon: ImageVector, keyboardOptions: KeyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text)) {
     Column(modifier = Modifier.padding(bottom = 16.dp)) {
         Text(label, color = Color.White, style = MaterialTheme.typography.labelLarge, modifier = Modifier.padding(bottom = 8.dp))
         TextField(
@@ -26,6 +28,7 @@ fun CustomTextField(label: String, placeHolder: String,value: String, onValueCha
             onValueChange = onValueChange,
             modifier = Modifier.fillMaxWidth().height(56.dp).clip(RoundedCornerShape(16.dp)),
             leadingIcon = { Icon(icon, null, tint = Color.Gray) },
+            keyboardOptions = keyboardOptions,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color(0xFF1C1C1E),
                 unfocusedContainerColor = Color(0xFF1C1C1E),

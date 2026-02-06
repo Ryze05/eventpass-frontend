@@ -19,7 +19,41 @@ class EventsListViewModel: ViewModel() {
 
     init {
         fetchCategorias()
-        fetchEventos()
+        viewModelScope.launch { fetchEventosLogic() }
+    }
+
+    fun refreshEvents() {
+        viewModelScope.launch {
+            _state.update { it.copy(isRefreshing = true) }
+            fetchEventosLogic(state.value.selectedCategoryId)
+            _state.update { it.copy(isRefreshing = false) }
+        }
+    }
+
+    fun fetchEventos(categoriaId: Int? = null) {
+        viewModelScope.launch {
+            _state.update { it.copy(isLoading = true, errorMessage = null) }
+            fetchEventosLogic(categoriaId)
+            _state.update { it.copy(isLoading = false) }
+        }
+    }
+
+    private suspend fun fetchEventosLogic(categoriaId: Int? = null) {
+        _state.update { it.copy(selectedCategoryId = categoriaId) }
+        try {
+            val url = if (categoriaId != null) "${KtorClient.BASE_URL}/eventos?categoria=$categoriaId"
+            else "${KtorClient.BASE_URL}/eventos"
+
+            val response = KtorClient.httpClient.get(url)
+            if (response.status == HttpStatusCode.OK) {
+                val eventos = response.body<List<Evento>>()
+                _state.update { it.copy(events = eventos) }
+            } else {
+                _state.update { it.copy(events = emptyList()) }
+            }
+        } catch (e: Exception) {
+            _state.update { it.copy(errorMessage = e.message) }
+        }
     }
 
     fun fetchCategorias() {
@@ -39,32 +73,6 @@ class EventsListViewModel: ViewModel() {
 
             } catch (e: Exception) {
                 _state.update { it.copy(errorMessage = e.message) }
-            }
-        }
-    }
-
-    fun fetchEventos(categoriaId: Int? = null) {
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true, selectedCategoryId = categoriaId, errorMessage = null) }
-
-            try {
-
-                val url = if (categoriaId != null) {
-                    "${KtorClient.BASE_URL}/eventos?categoria=$categoriaId"
-                } else {
-                    "${KtorClient.BASE_URL}/eventos"
-                }
-
-                val response = KtorClient.httpClient.get(url)
-
-                if (response.status == HttpStatusCode.OK) {
-                    val eventos = response.body<List<Evento>>()
-                    _state.update { it.copy(isLoading = false, events = eventos) }
-                } else if (response.status == HttpStatusCode.NoContent) {
-                    _state.update { it.copy(isLoading = false, events = emptyList()) }
-                }
-            } catch (e: Exception) {
-                _state.update { it.copy(isLoading = false, errorMessage = e.message) }
             }
         }
     }

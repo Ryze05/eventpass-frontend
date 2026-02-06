@@ -1,5 +1,7 @@
 package com.example.eventpassfront.ui.screens.eventsList
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +28,7 @@ import com.example.eventpassfront.ui.components.chips.CategoryChip
 import com.example.eventpassfront.ui.components.eventCards.GridCard
 import com.example.eventpassfront.ui.theme.DeepOrange
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventsListScreen(
@@ -35,84 +38,75 @@ fun EventsListScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    val isInitialLoading = state.isLoading && state.categories.isEmpty() && state.events.isEmpty() && state.selectedCategoryId == null
+    //val isInitialLoading = state.isLoading && state.categories.isEmpty() && state.events.isEmpty() && state.selectedCategoryId == null
 
     PullToRefreshBox(
-        isRefreshing = state.isLoading && !isInitialLoading,
-        onRefresh = { viewModel.fetchEventos(state.selectedCategoryId) },
+        isRefreshing = state.isRefreshing,
+        onRefresh = { viewModel.refreshEvents() },
         modifier = modifier,
         contentAlignment = Alignment.TopCenter
     ) {
-        if (isInitialLoading) {
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator(color = DeepOrange)
-            }
-        } else if (state.errorMessage != null) {
-            Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = state.errorMessage!!, color = Color.Red)
-            }
-        } else {
-            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.padding(bottom = 16.dp)
-                ) {
-                    item {
-                        CategoryChip(
-                            text = "Todos",
-                            isSelected = state.selectedCategoryId == null,
-                            onSelected = { viewModel.fetchEventos(null) }
-                        )
-                    }
-
-                    items(state.categories) {
-                        CategoryChip(
-                            text = it.nombre,
-                            isSelected = state.selectedCategoryId == it.id,
-                            onSelected = { viewModel.fetchEventos(it.id) }
-                        )
-                    }
+        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(bottom = 16.dp)
+            ) {
+                item {
+                    CategoryChip(
+                        text = "Todos",
+                        isSelected = state.selectedCategoryId == null,
+                        onSelected = { viewModel.fetchEventos(null) }
+                    )
                 }
 
-                if (state.events.isEmpty()) {
-                    Box(
-                        modifier = Modifier.fillMaxSize(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "No hay eventos en esta categoría",
-                            style = MaterialTheme.typography.bodyMedium
+                items(state.categories) {
+                    CategoryChip(
+                        text = it.nombre,
+                        isSelected = state.selectedCategoryId == it.id,
+                        onSelected = { viewModel.fetchEventos(it.id) }
+                    )
+                }
+            }
+
+            Box(modifier = Modifier.fillMaxSize()) {
+                when {
+                    state.isLoading -> {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center),
+                            color = DeepOrange
                         )
                     }
-                } else {
-                    LazyColumn(
-                        verticalArrangement = Arrangement.spacedBy(30.dp),
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        items(state.events) {
-                            GridCard(
-                                evento = it,
-                                onEventClick = {
-                                    navController.navigate("detalle_evento/${it.id}")
-                                }
-                            )
+
+                    state.errorMessage != null -> {
+                        Text(
+                            text = state.errorMessage!!,
+                            color = Color.Red,
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
+
+                    state.events.isEmpty() -> {
+                        Text(
+                            text = "No hay eventos en esta categoría",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
+                    else -> {
+                        LazyColumn(
+                            verticalArrangement = Arrangement.spacedBy(30.dp),
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            items(state.events) {
+                                GridCard(
+                                    evento = it,
+                                    onEventClick = {
+                                        navController.navigate("detalle_evento/${it.id}")
+                                    }
+                                )
+                            }
                         }
                     }
-                    /*LazyVerticalGrid(
-                        columns = GridCells.Fixed(2),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        verticalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        items(state.events) {
-                            GridCard(
-                                evento = it,
-                                onEventClick = {
-                                    navController.navigate("detalle_evento/${it.id}")
-                                }
-                            )
-                        }
-                    }*/
                 }
             }
         }
