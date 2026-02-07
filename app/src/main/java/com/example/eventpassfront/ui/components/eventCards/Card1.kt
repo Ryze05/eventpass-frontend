@@ -65,7 +65,7 @@ fun Card1(
                 ) {
                     Image(
                         painter = painterResource(imageRes),
-                        contentDescription = null,
+                        contentDescription = "Imagen de $title",
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop
                     )
@@ -104,7 +104,7 @@ fun Card1(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.DateRange,
-                            contentDescription = null,
+                            contentDescription = "Dat Icon",
                             tint = DeepOrange,
                             modifier = Modifier.size(14.dp)
                         )
@@ -119,7 +119,7 @@ fun Card1(
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.Place,
-                            contentDescription = null,
+                            contentDescription = "Location Icon",
                             tint = DeepOrange,
                             modifier = Modifier.size(16.dp)
                         )

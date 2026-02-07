@@ -93,7 +93,7 @@ fun RegisterScreen(
                 ) {
                     Image(
                         painter = painterResource(id = getDrawableId(it.imagenRes)),
-                        contentDescription = null,
+                        contentDescription = "Image event",
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop
                     )

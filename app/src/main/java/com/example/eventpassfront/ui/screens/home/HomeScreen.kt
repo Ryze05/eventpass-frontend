@@ -138,7 +138,7 @@ fun HomeScreen(
                                 ) {
                                     Icon(
                                         imageVector = icon,
-                                        contentDescription = null,
+                                        contentDescription = "swipe icon",
                                         tint = Color.White,
                                         modifier = Modifier.size(32.dp)
                                     )

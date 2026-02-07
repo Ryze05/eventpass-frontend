@@ -60,7 +60,7 @@ fun GridCard(
             ) {
                 Image(
                     painter = painterResource(getDrawableId(evento.imagenRes)),
-                    contentDescription = null,
+                    contentDescription = "Image event",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop
                 )
@@ -94,7 +94,7 @@ fun GridCard(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         imageVector = Icons.Default.DateRange,
-                        contentDescription = null,
+                        contentDescription = "Date Icon",
                         tint = Color.Gray,
                         modifier = Modifier.size(12.dp)
                     )
@@ -112,7 +112,7 @@ fun GridCard(
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
                         imageVector = Icons.Default.LocationOn,
-                        contentDescription = null,
+                        contentDescription = "Location Icon",
                         tint = Color.Gray,
                         modifier = Modifier.size(12.dp)
                     )
