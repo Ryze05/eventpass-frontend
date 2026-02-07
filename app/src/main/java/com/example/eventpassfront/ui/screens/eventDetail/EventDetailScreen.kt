@@ -40,9 +40,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.eventpassfront.ui.components.detailItems.DetailItem
-import com.example.eventpassfront.ui.screens.home.getDrawableId
 import com.example.eventpassfront.ui.theme.DeepOrange
 import com.example.eventpassfront.ui.utils.formatEventDate
+import com.example.eventpassfront.ui.utils.getDrawableId
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

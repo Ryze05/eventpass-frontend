@@ -1,9 +1,11 @@
 package com.example.eventpassfront
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
@@ -39,6 +41,7 @@ import com.example.eventpassfront.ui.theme.EventPassFrontTheme
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,7 +138,9 @@ class MainActivity : ComponentActivity() {
                             arguments = listOf(navArgument("eventId") { type = NavType.IntType })
                         ) { backStackEntry ->
                             val eventId = backStackEntry.arguments?.getInt("eventId") ?: 0
-                            RegisterScreen(modifier = Modifier.fillMaxSize(), eventId = eventId)
+                            RegisterScreen(modifier = Modifier.fillMaxSize(), eventId = eventId) {
+                                navController.popBackStack()
+                            }
                         }
 
                         composable(

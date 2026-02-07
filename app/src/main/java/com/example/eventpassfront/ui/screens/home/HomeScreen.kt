@@ -2,18 +2,26 @@ package com.example.eventpassfront.ui.screens.home
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SwipeToDismissBox
 import androidx.compose.material3.SwipeToDismissBoxValue
@@ -33,6 +41,7 @@ import androidx.navigation.NavController
 import com.example.eventpassfront.ui.components.eventCards.Card1
 import com.example.eventpassfront.ui.components.eventCards.Card2
 import com.example.eventpassfront.ui.theme.DeepOrange
+import com.example.eventpassfront.ui.utils.getDrawableId
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -102,10 +111,57 @@ fun HomeScreen(
                             }
                         )
 
+                        /*SwipeToDismissBox(
+                            state = dismissState,
+                            backgroundContent = {
+
+                            },
+                            content = {
+                                Card1(
+                                    title = it.titulo,
+                                    location = it.ubicacion,
+                                    date = it.fecha,
+                                    imageRes = getDrawableId(it.imagenRes),
+                                    onDetailClick = {
+                                        navController.navigate("detalle_evento/${it.id}")
+                                    }
+                                )
+                            }
+                        )*/
+
+
                         SwipeToDismissBox(
                             state = dismissState,
                             backgroundContent = {
-                                //TODO PONER ICONO O ALGO
+                                val backgroundColor = when (dismissState.targetValue) {
+                                    SwipeToDismissBoxValue.StartToEnd -> Color(0xFF2E7D32).copy(alpha = 0.7f)
+                                    SwipeToDismissBoxValue.EndToStart -> DeepOrange.copy(alpha = 0.7f)
+                                    else -> Color.Transparent
+                                }
+
+                                val alignment = if (dismissState.targetValue == SwipeToDismissBoxValue.StartToEnd)
+                                    Alignment.CenterStart else Alignment.CenterEnd
+
+                                val icon = if (dismissState.targetValue == SwipeToDismissBoxValue.StartToEnd) {
+                                    Icons.Default.Person
+                                } else {
+                                    Icons.Default.Info
+                                }
+
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(backgroundColor, RoundedCornerShape(28.dp))
+                                        .padding(horizontal = 24.dp),
+                                    contentAlignment = alignment
+                                ) {
+                                    Icon(
+                                        imageVector = icon,
+                                        contentDescription = null,
+                                        tint = Color.White,
+                                        modifier = Modifier.size(32.dp)
+                                    )
+                                }
                             },
                             content = {
                                 Card1(
@@ -119,6 +175,7 @@ fun HomeScreen(
                                 )
                             }
                         )
+
                     }
                 }
 
@@ -173,15 +230,4 @@ fun HomeScreen(
 
         }
     }
-}
-
-@Composable
-fun getDrawableId(imagenRes: String): Int {
-    val context = androidx.compose.ui.platform.LocalContext.current
-
-    val name = imagenRes.substringBefore(".")
-
-    val id = context.resources.getIdentifier(name, "drawable", context.packageName)
-
-    return if (id != 0) id else com.example.eventpassfront.R.drawable.concierto
 }

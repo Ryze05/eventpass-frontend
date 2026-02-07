@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -37,8 +39,6 @@ fun EventsListScreen(
     viewModel: EventsListViewModel = viewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-
-    //val isInitialLoading = state.isLoading && state.categories.isEmpty() && state.events.isEmpty() && state.selectedCategoryId == null
 
     PullToRefreshBox(
         isRefreshing = state.isRefreshing,
@@ -93,8 +93,10 @@ fun EventsListScreen(
                         )
                     }
                     else -> {
-                        LazyColumn(
-                            verticalArrangement = Arrangement.spacedBy(30.dp),
+                        LazyVerticalGrid(
+                            columns = GridCells.Fixed(2),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            verticalArrangement = Arrangement.spacedBy(12.dp),
                             modifier = Modifier.fillMaxSize()
                         ) {
                             items(state.events) {

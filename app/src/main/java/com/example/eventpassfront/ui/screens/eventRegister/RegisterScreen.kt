@@ -45,20 +45,21 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.eventpassfront.ui.components.errors.ErrorText
 import com.example.eventpassfront.ui.components.fields.CustomTextField
-import com.example.eventpassfront.ui.screens.home.getDrawableId
 import com.example.eventpassfront.ui.theme.DeepOrange
+import com.example.eventpassfront.ui.utils.getDrawableId
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
 fun RegisterScreen(
     modifier: Modifier,
     eventId: Int,
-    viewModel: EventRegisterViewModel = viewModel()
+    viewModel: EventRegisterViewModel = viewModel(),
+    onRegistrationSuccess: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -73,6 +74,8 @@ fun RegisterScreen(
             scope.launch {
                 snackbarHostState.showSnackbar("¡Registro exitoso!")
             }
+            delay(2000)
+            onRegistrationSuccess()
         } else if (state.errorMessage != null) {
             scope.launch {
                 snackbarHostState.showSnackbar("Error: ${state.errorMessage}")
@@ -84,7 +87,6 @@ fun RegisterScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                //.padding(horizontal = 24.dp)
                 .verticalScroll(rememberScrollState())
         ) {
             state.evento?.let {
@@ -92,7 +94,6 @@ fun RegisterScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(180.dp)
-                    //.clip(RoundedCornerShape(24.dp))
                 ) {
                     Image(
                         painter = painterResource(id = getDrawableId(it.imagenRes)),

@@ -3,6 +3,7 @@ package com.example.eventpassfront.ui.components.eventCards
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -34,11 +35,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.eventpassfront.modelos.Evento
-import com.example.eventpassfront.ui.screens.home.getDrawableId
-import com.example.eventpassfront.ui.theme.DeepOrange
 import com.example.eventpassfront.ui.theme.SurfaceDark
 import com.example.eventpassfront.ui.utils.formatEventDate
+import com.example.eventpassfront.ui.utils.getDrawableId
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -46,102 +47,86 @@ fun GridCard(
     evento: Evento,
     onEventClick: () -> Unit
 ) {
-    Column(
+    Card(
         modifier = Modifier
             .fillMaxWidth()
-        // .padding(horizontal = 16.dp)
+            .clickable { onEventClick() },
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = SurfaceDark)
     ) {
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(28.dp),
-            colors = CardDefaults.cardColors(containerColor = SurfaceDark)
-        ) {
-            Column {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                ) {
-                    Image(
-                        painter = painterResource(getDrawableId(evento.imagenRes)),
-                        contentDescription = null,
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
+        Column {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(120.dp)
+            ) {
+                Image(
+                    painter = painterResource(getDrawableId(evento.imagenRes)),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
 
-                    Surface(
-                        modifier = Modifier.padding(16.dp),
-                        color = Color.Black.copy(alpha = 0.6f),
-                        shape = CircleShape
-                    ) {
-                        Text(
-                            text = evento.categoria,
-                            color = Color.White,
-                            style = MaterialTheme.typography.labelSmall,
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
-                        )
-                    }
+                Surface(
+                    modifier = Modifier.padding(8.dp),
+                    color = Color.Black.copy(alpha = 0.6f),
+                    shape = CircleShape
+                ) {
+                    Text(
+                        text = evento.categoria,
+                        color = Color.White,
+                        style = MaterialTheme.typography.labelSmall,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                        fontSize = 10.sp
+                    )
+                }
+            }
+
+            Column(modifier = Modifier.padding(12.dp)) {
+                Text(
+                    text = evento.titulo,
+                    style = MaterialTheme.typography.titleSmall,
+                    color = Color.White,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.DateRange,
+                        contentDescription = null,
+                        tint = Color.Gray,
+                        modifier = Modifier.size(12.dp)
+                    )
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = formatEventDate(evento.fecha),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Gray,
+                        fontSize = 11.sp
+                    )
                 }
 
-                Column(modifier = Modifier.padding(20.dp)) {
-                    Text(
-                        text = evento.titulo,
-                        style = MaterialTheme.typography.titleMedium,
-                        color = Color.White
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = Icons.Default.LocationOn,
+                        contentDescription = null,
+                        tint = Color.Gray,
+                        modifier = Modifier.size(12.dp)
                     )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Default.DateRange,
-                            contentDescription = null,
-                            tint = Color.Gray,
-                            modifier = Modifier.size(14.dp)
-                        )
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Text(
-                            text = formatEventDate(evento.fecha),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Color.Gray
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(4.dp))
-
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            imageVector = Icons.Default.LocationOn,
-                            contentDescription = null,
-                            tint = Color.Gray,
-                            modifier = Modifier.size(14.dp)
-                        )
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Text(
-                            text = evento.ubicacion,
-                            style = MaterialTheme.typography.bodySmall,
-                            color = Color.Gray,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    Button(
-                        onClick = { onEventClick() },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(54.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = DeepOrange),
-                        shape = RoundedCornerShape(16.dp)
-                    ) {
-                        Text(
-                            text = "Ver detalles",
-                            style = MaterialTheme.typography.labelLarge,
-                            color = Color.White
-                        )
-                    }
+                    Spacer(modifier = Modifier.width(4.dp))
+                    Text(
+                        text = evento.ubicacion,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Gray,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        fontSize = 11.sp
+                    )
                 }
             }
         }
