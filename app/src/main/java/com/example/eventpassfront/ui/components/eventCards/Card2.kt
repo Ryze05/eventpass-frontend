@@ -37,9 +37,7 @@ fun Card2(
             .fillMaxWidth()
             .width(280.dp)
             .height(200.dp),
-            //.padding(vertical = 4.dp),
         shape = RoundedCornerShape(24.dp),
-        //onClick = onClick
     ) {
         Box(
             modifier = Modifier

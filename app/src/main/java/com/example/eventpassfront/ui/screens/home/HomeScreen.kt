@@ -111,25 +111,6 @@ fun HomeScreen(
                             }
                         )
 
-                        /*SwipeToDismissBox(
-                            state = dismissState,
-                            backgroundContent = {
-
-                            },
-                            content = {
-                                Card1(
-                                    title = it.titulo,
-                                    location = it.ubicacion,
-                                    date = it.fecha,
-                                    imageRes = getDrawableId(it.imagenRes),
-                                    onDetailClick = {
-                                        navController.navigate("detalle_evento/${it.id}")
-                                    }
-                                )
-                            }
-                        )*/
-
-
                         SwipeToDismissBox(
                             state = dismissState,
                             backgroundContent = {
@@ -211,7 +192,6 @@ fun HomeScreen(
                 item {
                     LazyRow(
                         modifier = Modifier.fillMaxWidth(),
-                        //contentPadding = PaddingValues(horizontal = 16.dp),
                         horizontalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
                         items(state.popularEvents) {

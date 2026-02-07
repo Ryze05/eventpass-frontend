@@ -5,18 +5,14 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-
-// Set of Material typography styles to start with
 val Typography = Typography(
-    // Para el nombre de la App en la TopBar (EventPass)
     headlineLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.ExtraBold,
         fontSize = 32.sp,
-        letterSpacing = (-1).sp // Estilo moderno, letras más juntas
+        letterSpacing = (-1).sp
     ),
 
-    // Para los títulos de los eventos en las tarjetas
     titleLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,
@@ -25,7 +21,6 @@ val Typography = Typography(
         letterSpacing = 0.sp
     ),
 
-    // Para títulos de secciones (ej: "Más populares")
     titleMedium = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.SemiBold,
@@ -34,7 +29,6 @@ val Typography = Typography(
         letterSpacing = 0.15.sp
     ),
 
-    // Texto estándar para descripciones de eventos
     bodyLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
@@ -43,7 +37,6 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     ),
 
-    // Para la fecha y ubicación (texto secundario)
     bodyMedium = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Medium,
@@ -52,7 +45,6 @@ val Typography = Typography(
         letterSpacing = 0.25.sp
     ),
 
-    // Para el texto dentro de los botones de "Registro"
     labelLarge = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Bold,

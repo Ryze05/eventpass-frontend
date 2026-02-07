@@ -51,7 +51,6 @@ fun Card1(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-           // .padding(horizontal = 16.dp)
     ) {
         Card(
             modifier = Modifier.fillMaxWidth(),
