@@ -4,7 +4,7 @@ import com.example.eventpassfront.modelos.Categoria
 import com.example.eventpassfront.modelos.Evento
 
 data class EventsListState(
-    val isLoading: Boolean = false,
+    val isLoading: Boolean = true,
     val isRefreshing: Boolean = false,
     val categories: List<Categoria> = emptyList(),
     val events: List<Evento> = emptyList(),

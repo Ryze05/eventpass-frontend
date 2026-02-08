@@ -18,7 +18,7 @@ import androidx.core.view.WindowCompat
 private val DarkColorScheme = darkColorScheme(
     primary = DeepOrange,
     secondary = LightOrange,
-    background = OledBlack,
+    background = Black,
     surface = SurfaceDark,
     onPrimary = Color.Black,
     onBackground = TextPrimary,
@@ -29,7 +29,7 @@ private val DarkColorScheme = darkColorScheme(
 private val LightColorScheme = darkColorScheme(
     primary = DeepOrange,
     secondary = LightOrange,
-    background = OledBlack,
+    background = Black,
     surface = SurfaceDark,
     onPrimary = Color.Black,
     onBackground = TextPrimary,
@@ -57,7 +57,7 @@ fun EventPassFrontTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = OledBlack.toArgb()
+            window.statusBarColor = Black.toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = false
         }
     }

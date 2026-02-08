@@ -19,7 +19,10 @@ class EventsListViewModel: ViewModel() {
 
     init {
         fetchCategorias()
-        viewModelScope.launch { fetchEventosLogic() }
+        viewModelScope.launch {
+            fetchEventosLogic(null)
+            _state.update { it.copy(isLoading = false) }
+        }
     }
 
     fun refreshEvents() {
@@ -59,18 +62,11 @@ class EventsListViewModel: ViewModel() {
     fun fetchCategorias() {
         viewModelScope.launch {
             try {
-                val response = KtorClient.httpClient
-                    .get("${KtorClient.BASE_URL}/categorias")
-
+                val response = KtorClient.httpClient.get("${KtorClient.BASE_URL}/categorias")
                 if (response.status == HttpStatusCode.OK) {
                     val categorias = response.body<List<Categoria>>()
                     _state.update { it.copy(categories = categorias) }
-                } else if (response.status == HttpStatusCode.NoContent) {
-                    _state.update { it.copy(categories = emptyList()) }
-                } else {
-                    _state.update { it.copy(errorMessage = "Error del servidor: ${response.status}") }
                 }
-
             } catch (e: Exception) {
                 _state.update { it.copy(errorMessage = e.message) }
             }
