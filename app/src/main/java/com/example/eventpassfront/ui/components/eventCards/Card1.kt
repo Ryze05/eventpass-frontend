@@ -105,7 +105,7 @@ fun Card1(
                         Icon(
                             imageVector = Icons.Default.DateRange,
                             contentDescription = "Dat Icon",
-                            tint = DeepOrange,
+                            tint = Color.Gray,
                             modifier = Modifier.size(14.dp)
                         )
                         Spacer(modifier = Modifier.width(6.dp))
@@ -120,7 +120,7 @@ fun Card1(
                         Icon(
                             imageVector = Icons.Default.Place,
                             contentDescription = "Location Icon",
-                            tint = DeepOrange,
+                            tint = Color.Gray,
                             modifier = Modifier.size(16.dp)
                         )
                         Spacer(modifier = Modifier.width(6.dp))

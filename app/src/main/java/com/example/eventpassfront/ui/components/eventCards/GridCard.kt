@@ -127,7 +127,7 @@ fun GridCard(
                     Text(
                         text = formatEventDate(evento.fecha),
                         style = MaterialTheme.typography.bodySmall,
-                        color = Color.Gray,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 11.sp
                     )
                 }
@@ -145,7 +145,7 @@ fun GridCard(
                     Text(
                         text = evento.ubicacion,
                         style = MaterialTheme.typography.bodySmall,
-                        color = Color.Gray,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         fontSize = 11.sp
