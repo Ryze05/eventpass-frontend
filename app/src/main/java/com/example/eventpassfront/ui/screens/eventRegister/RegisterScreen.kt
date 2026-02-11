@@ -79,147 +79,144 @@ fun RegisterScreen(
         }
     }
 
-    Box(modifier) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ) {
-            state.evento?.let {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(180.dp)
-                ) {
-                    Image(
-                        painter = painterResource(id = getDrawableId(it.imagenRes)),
-                        contentDescription = "Image event",
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
-
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.Black.copy(alpha = 0.4f))
-                    )
-
-                    Column(
-                        modifier = Modifier
-                            .align(Alignment.BottomStart)
-                            .padding(16.dp)
-                    ) {
-                        Surface(
-                            color = DeepOrange,
-                            shape = CircleShape
-                        ) {
-                            Text(
-                                text = it.categoria,
-                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 4.dp),
-                                style = MaterialTheme.typography.labelSmall,
-                                color = Color.White
-                            )
-                        }
-
-                        Spacer(Modifier.height(10.dp))
-
-                        Text(
-                            text = it.titulo,
-                            style = MaterialTheme.typography.titleLarge,
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold
-                        )
-                    }
-                }
-            }
-
-            Spacer(Modifier.height(20.dp))
+    Box(modifier = modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
 
             Column(
                 modifier = Modifier
+                    .weight(1f)
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .verticalScroll(rememberScrollState())
             ) {
-                Text(
-                    "Asegura tu lugar en el evento",
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    "Completa el formulario a continuación para registrarte.",
-                    color = Color.Gray,
-                    style = MaterialTheme.typography.bodyMedium
-                )
+                state.evento?.let {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(180.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = getDrawableId(it.imagenRes)),
+                            contentDescription = "Image event",
+                            modifier = Modifier.fillMaxSize(),
+                            contentScale = ContentScale.Crop
+                        )
 
-                Spacer(Modifier.height(28.dp))
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(Color.Black.copy(alpha = 0.4f))
+                        )
 
-                CustomTextField(
-                    label = "Nombre Completo",
-                    placeHolder = "Introduce tu nombre completo",
-                    value = state.nombre,
-                    onValueChange = { viewModel.updateName(it) },
-                    icon = Icons.Default.Person
-                )
+                        Column(
+                            modifier = Modifier
+                                .align(Alignment.BottomStart)
+                                .padding(16.dp)
+                        ) {
+                            Surface(
+                                color = DeepOrange,
+                                shape = CircleShape
+                            ) {
+                                Text(
+                                    text = it.categoria,
+                                    modifier = Modifier.padding(horizontal = 6.dp, vertical = 4.dp),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = Color.White
+                                )
+                            }
 
-                state.nombreError?.let { ErrorText(it) }
-                Spacer(Modifier.height(16.dp))
+                            Spacer(Modifier.height(10.dp))
 
-                CustomTextField(
-                    label = "Correo Electrónico",
-                    placeHolder = "Introduce tu correo electrónico",
-                    value = state.email,
-                    onValueChange = { viewModel.updateEmail(it) },
-                    icon = Icons.Default.Email
-                )
+                            Text(
+                                text = it.titulo,
+                                style = MaterialTheme.typography.titleLarge,
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+                }
 
-                state.emailError?.let { ErrorText(it) }
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(20.dp))
 
-                CustomTextField(
-                    label = "Número de Teléfono",
-                    placeHolder = "Introduce tu número de teléfono",
-                    value = state.telefono,
-                    onValueChange = { viewModel.updateTelefono(it) },
-                    icon = Icons.Default.Phone,
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                )
-
-                state.telefonoError?.let { ErrorText(it) }
-
-                Spacer(Modifier.height(32.dp))
-            }
-        }
-
-
-        Surface(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .fillMaxWidth(),
-            color = Color.Black.copy(alpha = 0.9f)
-        ) {
-            Button(
-                onClick = { viewModel.registerAssistant(eventId) },
-                enabled = !state.isLoading && !state.isSuccess && viewModel.isFormValid(),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 20.dp)
-                    .height(54.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = DeepOrange,
-                    contentColor = Color.White,
-                    disabledContainerColor = Color.DarkGray,
-                    disabledContentColor = Color.Gray
-                ),
-                shape = RoundedCornerShape(16.dp)
-            ) {
-                if (state.isLoading) {
-                    CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
-                } else {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp)
+                ) {
                     Text(
-                        "Registrarse",
-                        style = MaterialTheme.typography.labelLarge
+                        "Asegura tu lugar en el evento",
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold
                     )
+                    Text(
+                        "Completa el formulario a continuación para registrarte.",
+                        color = Color.Gray,
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+
+                    Spacer(Modifier.height(28.dp))
+
+                    CustomTextField(
+                        label = "Nombre Completo",
+                        placeHolder = "Introduce tu nombre completo",
+                        value = state.nombre,
+                        onValueChange = { viewModel.updateName(it) },
+                        icon = Icons.Default.Person
+                    )
+                    state.nombreError?.let { ErrorText(it) }
+
+                    Spacer(Modifier.height(16.dp))
+
+                    CustomTextField(
+                        label = "Correo Electrónico",
+                        placeHolder = "Introduce tu correo electrónico",
+                        value = state.email,
+                        onValueChange = { viewModel.updateEmail(it) },
+                        icon = Icons.Default.Email
+                    )
+                    state.emailError?.let { ErrorText(it) }
+
+                    Spacer(Modifier.height(16.dp))
+
+                    CustomTextField(
+                        label = "Número de Teléfono",
+                        placeHolder = "Introduce tu número de teléfono",
+                        value = state.telefono,
+                        onValueChange = { viewModel.updateTelefono(it) },
+                        icon = Icons.Default.Phone,
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                    )
+                    state.telefonoError?.let { ErrorText(it) }
+
+                    Spacer(Modifier.height(20.dp))
+                }
+            }
+
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = Color.Black.copy(alpha = 0.9f)
+            ) {
+                Button(
+                    onClick = { viewModel.registerAssistant(eventId) },
+                    enabled = !state.isLoading && !state.isSuccess && viewModel.isFormValid(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 20.dp)
+                        .height(54.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = DeepOrange,
+                        contentColor = Color.White,
+                        disabledContainerColor = Color.DarkGray,
+                        disabledContentColor = Color.Gray
+                    ),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    if (state.isLoading) {
+                        CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
+                    } else {
+                        Text("Confirmar Registro", style = MaterialTheme.typography.labelLarge)
+                    }
                 }
             }
         }
@@ -228,7 +225,7 @@ fun RegisterScreen(
             hostState = snackbarHostState,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 16.dp)
+                .padding(bottom = 100.dp)
         ) { data ->
             Snackbar(
                 snackbarData = data,
